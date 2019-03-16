@@ -23,7 +23,7 @@ public class CanLocator {
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
 	private int ENDX = 0, ENDY = 0;
-	private double Cx = 0,Cy = 0, Ct = 0;
+	private double Cx = 0,Cy = 0;
 	private int count = 0;
 	private static boolean fromInsideDodge = false;
 	private static boolean loopStop = false;
@@ -56,15 +56,15 @@ public class CanLocator {
 	}
 	
 	/**
-	 * RunLocator() is the method that runs the algorithm for searching for the correct can.
+	 * RunLocator() is the method that runs the algorithm for searching for the correodo.getXYT()[2] can.
 	 * It drives the EV3 forward and in a square around teh search zone and looks for cans.
-	 * If a can is detected, it calls for the searchProcess(), otherwise it calls goToNext().
-	 * Once it has traveled around the whole zone without finding the correct can it then travels
+	 * If a can is deteodo.getXYT()[2]ed, it calls for the searchProcess(), otherwise it calls goToNext().
+	 * Once it has traveled around the whole zone without finding the correodo.getXYT()[2] can it then travels
 	 * to the upper right corner.
 	 */
 	
 	public void RunLocator(){
-		
+		lightLocalizer.lightLocalize(LLx,LLy);
 		while (true && !loopStop) {	
 			
 			//when EV3 goes full circle with the algorithm
@@ -120,10 +120,10 @@ public class CanLocator {
 	}	
 	
 	/**
-	 * searchProcess() runs when the EV3 detects a can. When detected, it drives to it and checks its color.
-	 * If the color is correct, it beeps once and travels to the upper right corner. Otherwise it
+	 * searchProcess() runs when the EV3 deteodo.getXYT()[2]s a can. When deteodo.getXYT()[2]ed, it drives to it and checks its color.
+	 * If the color is correodo.getXYT()[2], it beeps once and travels to the upper right corner. Otherwise it
 	 * reverses and calls one of the dodge methods depending on where the can was spotted.
-	 * For instance, If an incorrect colored can is placed on the border
+	 * For instance, If an incorreodo.getXYT()[2] colored can is placed on the border
 	 * the EV3 dodges outwards, and then sets the distanceToCan to CAN_DISTANCE_FROM_OUT so that
 	 * the EV3 knows how far to move towards a can if it spots one.
 	 */
@@ -146,22 +146,22 @@ public class CanLocator {
 		else{
 			distanceToCan = CAN_DISTANCE_ON_BORDER;
 			
-			if(Cx == LLx && (Ct > (90-ANGLE_ERROR) && Ct < (90+ANGLE_ERROR))){
+			if(Cx == LLx && (odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR))){
 				
 				Cx = (Cx*TILE_SIZE+CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if (Cy == URy && (Ct > (180-ANGLE_ERROR) && Ct < (180+ANGLE_ERROR))) {
+			else if (Cy == URy && (odo.getXYT()[2] > (180-ANGLE_ERROR) && odo.getXYT()[2] < (180+ANGLE_ERROR))) {
 				
 				Cy = (Cy*TILE_SIZE-CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if ( Cx == URx && Ct > (270-ANGLE_ERROR) && Ct < (270+ANGLE_ERROR)){
+			else if ( Cx == URx && odo.getXYT()[2] > (270-ANGLE_ERROR) && odo.getXYT()[2] < (270+ANGLE_ERROR)){
 				
 				Cx = (Cx*TILE_SIZE-CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if( Cy == LLy && Ct > (360-ANGLE_ERROR) || Ct < (0+ANGLE_ERROR)){
+			else if( Cy == LLy && odo.getXYT()[2] > (360-ANGLE_ERROR) || odo.getXYT()[2] < (0+ANGLE_ERROR)){
 				
 				Cx = (Cx*TILE_SIZE+CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
@@ -174,10 +174,10 @@ public class CanLocator {
 			
 			if(inside){
 
-				if((Cx*TILE_SIZE > (LLx*TILE_SIZE+10) && (Ct > (90-ANGLE_ERROR) && Ct < (90+ANGLE_ERROR)))
-						|| (Cy*TILE_SIZE < (URy*TILE_SIZE-10) && (Ct > (180-ANGLE_ERROR) && Ct < (180+ANGLE_ERROR)))
-						|| (Cx*TILE_SIZE < (URx*TILE_SIZE-10) && (Ct > (270-ANGLE_ERROR) && Ct < (270+ANGLE_ERROR)))
-						 || Cy*TILE_SIZE > (LLy*TILE_SIZE+10) && (Ct > (360-ANGLE_ERROR) || Ct < (0+ANGLE_ERROR))){
+				if((Cx*TILE_SIZE > (LLx*TILE_SIZE+10) && (odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR)))
+						|| (Cy*TILE_SIZE < (URy*TILE_SIZE-10) && (odo.getXYT()[2] > (180-ANGLE_ERROR) && odo.getXYT()[2] < (180+ANGLE_ERROR)))
+						|| (Cx*TILE_SIZE < (URx*TILE_SIZE-10) && (odo.getXYT()[2] > (270-ANGLE_ERROR) && odo.getXYT()[2] < (270+ANGLE_ERROR)))
+						 || Cy*TILE_SIZE > (LLy*TILE_SIZE+10) && (odo.getXYT()[2] > (360-ANGLE_ERROR) || odo.getXYT()[2] < (0+ANGLE_ERROR))){
 					
 					travelToURInside();
 				}
@@ -197,10 +197,10 @@ public class CanLocator {
 		else{
 			if(inside){
 				
-				if((Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && (Ct > (360-ANGLE_ERROR) || Ct < (0+ANGLE_ERROR)))
-						|| (Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && (Ct > (90-ANGLE_ERROR) && Ct < (90+ANGLE_ERROR)))
-						|| (Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && (Ct > (180-ANGLE_ERROR) && Ct < (180+ANGLE_ERROR)))
-						 || Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR) && (Ct > (270-ANGLE_ERROR) && Ct < (270+ANGLE_ERROR))){//////
+				if((Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && (odo.getXYT()[2] > (360-ANGLE_ERROR) || odo.getXYT()[2] < (0+ANGLE_ERROR)))
+						|| (Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && (odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR)))
+						|| (Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && (odo.getXYT()[2] > (180-ANGLE_ERROR) && odo.getXYT()[2] < (180+ANGLE_ERROR)))
+						 || Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR) && (odo.getXYT()[2] > (270-ANGLE_ERROR) && odo.getXYT()[2] < (270+ANGLE_ERROR))){//////
 					borderDodge();
 				}
 				
@@ -224,7 +224,7 @@ public class CanLocator {
 	//robot is facing the can
 	private boolean checkCan(){
 	
-		//read sensor and see if a can is detected in range
+		//read sensor and see if a can is deteodo.getXYT()[2]ed in range
 		if(readUSDistance() <= TILE_SIZE+DISTANCE_ERROR) return true;
 		else return false;
 		
@@ -256,7 +256,7 @@ public class CanLocator {
 	} 
 	
 	/**
-	*goToNext() moves the EV3 forward to the next position when no cans are detected.
+	*goToNext() moves the EV3 forward to the next position when no cans are deteodo.getXYT()[2]ed.
 	*/
 
 	private void goToNext() { 
@@ -287,28 +287,28 @@ public class CanLocator {
 		
 		
 		/*if(Cy < URy && Cx==LLx) {
-			Ct = 90.0;
-			odo.setTheta(Ct);
+			odo.getXYT()[2] = 90.0;
+			odo.setTheta(odo.getXYT()[2]);
 		}
 		else if(Cx < URx && Cy==URy) { 
-			Ct = 180.0;
-			odo.setTheta(Ct);
+			odo.getXYT()[2] = 180.0;
+			odo.setTheta(odo.getXYT()[2]);
 		}
 		else if(Cy > LLy && Cx==URx) {
-			Ct = 270.0;
-			odo.setTheta(Ct);
-		}*/
+			odo.getXYT()[2] = 270.0;
+			odo.setTheta(odo.getXYT()[2]);
+		}
 		
 		//ENDX is the x coordinate of the final position of the EV3
 		else if(Cx >= ENDX && Cy==LLy) {
-			Ct = 0.0;
-			odo.setTheta(Ct);
-		}
+			odo.getXYT()[2] = 0.0;
+			odo.setTheta(odo.getXYT()[2]);
+		}*/
 		
 	}
 	
 	/**
-	*travelToURBorder() is called when the correct can is found on the edge of the search zone. This
+	*travelToURBorder() is called when the correodo.getXYT()[2] can is found on the edge of the search zone. This
 	*method will use travelTo() from the Navigator class to get the EV3 to the upper right corner.
 	*/
 	
@@ -357,7 +357,7 @@ public class CanLocator {
 		
 
 	/**
-	*travelToUROutside() is called when the correct can is found from the outside of
+	*travelToUROutside() is called when the correodo.getXYT()[2] can is found from the outside of
 	*the search zone. This method will use travelTo() from the Navigator class
 	*to get the EV3 to the upper right corner.
 	*/
@@ -478,8 +478,8 @@ public class CanLocator {
 	}
 	
 	/**
-	*borderDodge() is called when an incorrect color of a can is detected. 
-	*The EV3 will dodge the can and continue its trip to look for the correct one.
+	*borderDodge() is called when an incorreodo.getXYT()[2] color of a can is deteodo.getXYT()[2]ed. 
+	*The EV3 will dodge the can and continue its trip to look for the correodo.getXYT()[2] one.
 	*/
 	
 	private void borderDodge() {
@@ -551,7 +551,7 @@ public class CanLocator {
 	
 	/**
 	*outsideDodge() is called if the EV3 is outside the zonoe and it needs to
-	*avoid an incorrect can.
+	*avoid an incorreodo.getXYT()[2] can.
 	*/				   
 	
 	private void outsideDodge() {
@@ -582,22 +582,22 @@ public class CanLocator {
 			//on the first edge of square
 			navigator.driveBack(CAN_DISTANCE_ON_BORDER);
 			
-			if((Ct > (90-ANGLE_ERROR) && Ct < (90+ANGLE_ERROR))){
+			if((odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR))){
 				
 				Cx = (int)(Cx*TILE_SIZE-CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if (Cy == URy && (Ct > (180-ANGLE_ERROR) && Ct < (180+ANGLE_ERROR))) {
+			else if (Cy == URy && (odo.getXYT()[2] > (180-ANGLE_ERROR) && odo.getXYT()[2] < (180+ANGLE_ERROR))) {
 				
 				Cy = (int)(Cy*TILE_SIZE+CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if ( Cx == URx && Ct > (270-ANGLE_ERROR) && Ct < (270+ANGLE_ERROR)){
+			else if ( Cx == URx && odo.getXYT()[2] > (270-ANGLE_ERROR) && odo.getXYT()[2] < (270+ANGLE_ERROR)){
 				
 				Cx = (int)(Cx*TILE_SIZE+CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				
 			}
-			else if( Cy == LLy && Ct > (360-ANGLE_ERROR) || Ct < (0+ANGLE_ERROR)){
+			else if( Cy == LLy && odo.getXYT()[2] > (360-ANGLE_ERROR) || odo.getXYT()[2] < (0+ANGLE_ERROR)){
 				
 				Cx = (int)(Cx*TILE_SIZE-CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
 				

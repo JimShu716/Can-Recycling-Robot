@@ -39,7 +39,7 @@ public class Project {
 	private static final Port CS_FRONT_PORT = LocalEV3.get().getPort("S2");
 	
 	public static final int TEAM_NUMBER = 10;
-	private static final String SERVER_IP = "192.168.2.18";
+	private static final String SERVER_IP = "192.168.2.39";
 	// Enable/disable printing of debug info from the WiFi class
 	private static final boolean ENABLE_DEBUG_WIFI_PRINT = false;
 
@@ -82,15 +82,15 @@ public class Project {
 			// ask the user whether robot should do Rising Edge or Falling Edge
 			LCD.drawString("< Left | Right >", 0, 0);
 			LCD.drawString("       |        ", 0, 1);
-			LCD.drawString(" Field |Color   ", 0, 2);
-			LCD.drawString(" Test  |Class.  ", 0, 3);
+			LCD.drawString(" Field |Test    ", 0, 2);
+			LCD.drawString(" Test  |        ", 0, 3);
 			LCD.drawString("       |        ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
 
 			if (buttonChoice == Button.ID_LEFT) { // do Field Test
-				
+				LCD.clear();
 				Robot robot = null;
 				try {
 					robot = new Robot(wifi);
@@ -118,41 +118,32 @@ public class Project {
 				searchZonelocator.goToSearchZone();
 				
 				Sound.beep(); // Must BEEP after navigation to search zone is finished
-				
+				/*
 				CanLocator canLocator = new CanLocator(robot, assessCanColor, usDistance, usData, 
 											navigator,lightLocalizer);
 				canLocator.RunLocator();
-				
+				*/
 				
 			} else {
 				LCD.clear();
-				
-				/*Thread odoThread = new Thread(odometer);
+				Robot robot = null;
+				try {
+					robot = new Robot(wifi);
+				} catch (IOException | ParseException e) {
+					e.printStackTrace();
+				}
+				Thread odoThread = new Thread(odometer);
 				odoThread.start();
-
 				Thread odoDisplayThread = new Thread(odometryDisplay);
 				odoDisplayThread.start();
+				UltrasonicLocalizer ultrasonicLocalizer = new UltrasonicLocalizer(LEFT_MOTOR, RIGHT_MOTOR, usDistance, usData);
+				// Localization (Ultrasonic and Light)
 				LightLocalizer lightLocalizer = new LightLocalizer(LEFT_MOTOR, RIGHT_MOTOR, csLineDetector, csData, navigator);
-				CanLocator canLocator = new CanLocator(assessCanColor, usDistance, usData, 
-						navigator,lightLocalizer, TR, LLx, LLy, URx, URy);
-				canLocator.RunLocator();*/
-				assessCanColor.run();
-				while(true) {
-					
-					if (ClrClassify.run() !="no object") {	//if there is a can detected
-				    LCD.drawString("Object Detected", 1,1);
-				    LCD.drawString(ClrClassify.run(), 1, 2);
-				    
-				    } else {
-				    	LCD.clear();
-				    }
-
-				    colorId.fetchSample(colorData, 0);
-				    LCD.drawString("R: " + colorData[0], 1, 3);
-			        LCD.drawString("G: " + colorData[1], 1, 4);
-			        LCD.drawString("B: " + colorData[2], 1, 5);
-				  
-				 }
+				ultrasonicLocalizer.fallingEdge();
+				CanLocator canLocator = new CanLocator(robot, assessCanColor, usDistance, usData, 
+						navigator,lightLocalizer);
+				canLocator.RunLocator();
+				
 				
 			}
 
