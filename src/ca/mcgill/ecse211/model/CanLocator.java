@@ -1,5 +1,6 @@
 package ca.mcgill.ecse211.model;
 
+import ca.mcgill.ecse211.main.Project;
 import lejos.hardware.Sound;
 import lejos.robotics.SampleProvider;
 
@@ -22,6 +23,7 @@ public class CanLocator {
 	private static final double CAN_DISTANCE_FROM_OUT = 11.75;
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
+	private double canAngle = 0;
 	private int ENDX = 0, ENDY = 0;
 	private double Cx = 0,Cy = 0;
 	private int count = 0;
@@ -64,60 +66,76 @@ public class CanLocator {
 	 */
 	
 	public void RunLocator(){
-		lightLocalizer.lightLocalize(LLx,LLy);
-		while (true && !loopStop) {	
-			
-			//when EV3 goes full circle with the algorithm
-			//and ends where it started, break the loop.
-			if(Cx == ENDX && Cy == ENDY) {
-				
-				lightLocalizer.lightLocalize(Cx,Cy);
-				
-				//If no can was found once algorithm is finished, go to Upper Right
-				navigator.travelTo(Cx,LLy-OFFSET);
-				navigator.travelTo(URx+OFFSET,LLy-OFFSET);
-				navigator.travelTo(URx+OFFSET,URy);
-				navigator.travelTo(URx,URy);
-				break;
-			}			
-			
-			else if(!checkCan()){
-
-				//if the EV3 is at one of the 4 corners of the search zone
-				if((Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))
-						|| (Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))
-						|| (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))
-						 || (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))){
-					
-					goToNext();
-					
-				}
-				
-				else {
-					
-					if(!fromInsideDodge) navigator.turnTo(-90);
-					fromInsideDodge = false;
-					if(checkCan()){
-						
-						searchProcess();
-						
-					}
-					
-					else goToNext();
-					
-				}
-			}
-			
-			//checks a can in front of it
-			else{
-				
-				searchProcess();
-				
-			}
-			
-		}
 		
-	}	
+//		lightLocalizer.lightLocalize(LLx,LLy);
+		
+//		while (true && !loopStop) {	
+//			
+//			//when EV3 goes full circle with the algorithm
+//			//and ends where it started, break the loop.
+//			if(Cx == ENDX && Cy == ENDY) {
+//				
+//				navigator.turnTo(45);
+//				lightLocalizer.lightLocalize(Cx,Cy);
+//				
+//				//If no can was found once algorithm is finished, go to Upper Right
+//				navigator.travelTo(Cx,LLy-OFFSET);
+//				navigator.travelTo(URx+OFFSET,LLy-OFFSET);
+//				navigator.travelTo(URx+OFFSET,URy);
+//				navigator.travelTo(URx,URy);
+//				navigator.turnTo(135);
+//				lightLocalizer.lightLocalize(URx,URy);
+//				break;
+//			}			
+//			
+//			else if(!checkCan()){
+//
+//				//if the EV3 is at one of the 4 corners of the search zone
+//				if((Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))
+//						|| (Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))
+//						|| (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))
+//						 || (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))){
+//					
+//					goToNext();
+//					
+//				}
+//				
+//				else {
+//					
+//					navigator.turnTo(-90);
+//					goToNext();
+//					
+//				}
+//			}
+//			
+//			//checks a can in front of it
+//			else{
+//				
+//				searchProcess();
+//				
+//			}
+//			
+//		}
+//		
+
+		checkCan();
+		checkColor(readUSDistance()-7.7);
+		
+		
+//			//TEST FOR 
+//			Project.LEFT_MOTOR.rotate(Navigation.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, 90), true);
+//			Project.RIGHT_MOTOR.rotate(Navigation.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -90),true);
+//			while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
+//				if(readUSDistance() <= TILE_SIZE*Math.sqrt(2.0)+DISTANCE_ERROR){
+//					System.out.println(readUSDistance());
+//					Project.LEFT_MOTOR.stop();
+//					Project.RIGHT_MOTOR.stop();
+//					Sound.beep();
+//				}
+//			}
+		
+	}
+	
 	
 	/**
 	 * searchProcess() runs when the EV3 deteodo.getXYT()[2]s a can. When deteodo.getXYT()[2]ed, it drives to it and checks its color.
@@ -217,16 +235,32 @@ public class CanLocator {
 	}
 	
 	/**
-	*checkCan() returns true if a can was spotten by the ultrasonic sensor within the
+	*checkCan() returns true if a can was spotted by the ultrasonic sensor within the
 	*range of a tile. Otherwise, it returns false.
 	*/
 	
 	//robot is facing the can
 	private boolean checkCan(){
 	
-		//read sensor and see if a can is deteodo.getXYT()[2]ed in range
-		if(readUSDistance() <= TILE_SIZE+DISTANCE_ERROR) return true;
-		else return false;
+		//begin rotating to scan for cans 
+		navigator.turnToScan(90);
+        
+        while (readUSDistance() > TILE_SIZE*Math.sqrt(2.0)) {
+            
+            //keep turning until the distance of the US is less than a tile (i.e a can is detected)
+            
+            //if the motors finish the 90 degree turn, and no can is found, the method returns false
+            if(!(Project.LEFT_MOTOR.isMoving()) || !(Project.RIGHT_MOTOR.isMoving())) return false;
+            
+        }
+        
+        //if can is found, stop motors and record the angle the can was detected at
+        Project.LEFT_MOTOR.stop(true);
+        Project.RIGHT_MOTOR.stop();
+        navigator.turnTo(8);
+        canAngle = odo.getXYT()[2];
+        
+        return true;
 		
 	}
 	
@@ -243,14 +277,27 @@ public class CanLocator {
 		
 		//if the can color is the target color, beep once
 		if (TR == assessCanColor.run()) {
-			Sound.beep();
+			
+			for(int i = 0; i<10; i++){
+				
+				Sound.beep();
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
 			return true;
 		}
 		
 		//otherwise, beep twice
 		else {
-			Sound.beep(); 
-			Sound.beep();
+//			Sound.beep(); 
+//			Sound.beep();
 			return false;
 		}
 	} 
@@ -261,9 +308,7 @@ public class CanLocator {
 
 	private void goToNext() { 
 
-		
 		navigator.moveToCan(TILE_SIZE);
-		navigator.turnTo(90);
 
 		//keeps coordinate values in check to update odo if needed
 		if(Cy < URy && Cx==LLx) {
@@ -617,5 +662,6 @@ public class CanLocator {
 		return (int) (usData[0] * 100);
 		
 	}
+
   
-}
+}	
