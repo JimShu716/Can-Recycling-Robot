@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.model;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import ca.mcgill.ecse211.model.*;
 
 /**
  * This class contains all the methods that contribute to making
@@ -11,6 +12,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
  */
 public class Navigation {
 
+  public final static int SLOW_SPEED = 75;
   public final static int ROTATION_SPEED = 100;
   private final static int FORWARD_SPEED = 200; 
   
@@ -82,6 +84,20 @@ public class Navigation {
 	rightMotor.rotate(-convertAngle(RADIUS, TRACK, theta), false);
 
   }
+  
+  /**
+   * This method is only used when scanning for a can in the search zone. It is
+   * similar to turnTo(), but the motors rotate at a slower speed, and return
+   * instantly rather than wait for the robot to rotate.
+   * @param theta angle amount (in degrees) that you want the robot to rotate in place
+   */
+  public void turnToScan(double theta) {
+		leftMotor.setSpeed(SLOW_SPEED);
+		rightMotor.setSpeed(SLOW_SPEED);
+		leftMotor.rotate(convertAngle(RADIUS, TRACK, theta), true);
+		rightMotor.rotate(-convertAngle(RADIUS, TRACK, theta), true);
+
+	  }
   
   /**
    * Method that allows the robot to move backward
