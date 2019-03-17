@@ -7,12 +7,12 @@ import java.util.Map;
 import org.json.simple.parser.ParseException;
 
 import ca.mcgill.ecse211.WiFiClient.WifiConnection;
-import ca.mcgill.ecse211.lab5.Project;
+import ca.mcgill.ecse211.main.Project;
 
 public class Robot {
 	//Robot related parameters
-	public static final double WHEEL_RAD = 2.2;
-	public static final double TRACK = 13.2;
+	public static final double WHEEL_RAD = 2.1;
+	public static final double TRACK = 12.85;
 	
 	private final int TEAM_NUMBER = Project.TEAM_NUMBER;
 	// Holds the Wifi data
