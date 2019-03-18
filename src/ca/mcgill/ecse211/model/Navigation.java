@@ -123,18 +123,6 @@ public class Navigation {
 	  rightMotor.rotate(convertDistance(RADIUS, distance), false);
   }
   
-  /**
-   * Method that allows the robot to approach a can
-   * @param distance distance that you want the robot to travel forward
-   */
-  public void moveToCan(double distance) {
-	  leftMotor.setSpeed(FORWARD_SPEED);
-	  rightMotor.setSpeed(FORWARD_SPEED);
-
-	  leftMotor.rotate(convertDistance(RADIUS, distance), true);
-	  rightMotor.rotate(convertDistance(RADIUS, distance), false);
-  }
-  
 	/**
 	 * This method converts a distance into the total rotation (in degrees) of 
 	 * each wheel needed to cover that distance 
