@@ -23,7 +23,7 @@ public class CanLocator {
 	private static final double CAN_DISTANCE_FROM_OUT = 11.75;
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
-	private static final int TEST_VALUE = 0;
+	private static final double TEST_VALUE = 7.7;
 	private double canAngle = 0;
 	private int ENDX = 0, ENDY = 0;
 	private double Cx = 0,Cy = 0;
@@ -68,15 +68,13 @@ public class CanLocator {
 	
 	public void RunLocator(){
 		
-// 		lightLocalizer.lightLocalize(LLx,LLy);
-		
 		while (true && !loopStop) {	
 			
 			//when EV3 goes full circle with the algorithm
 			//and ends where it started, break the loop.
 			if(Cx == ENDX && Cy == ENDY) {
 				
-				navigator.turnTo(45);
+				navigator.turnTo(135);
 				lightLocalizer.lightLocalize(Cx,Cy);
 				
 				//If no can was found once search algorithm is finished, go to Upper Right
@@ -110,8 +108,8 @@ public class CanLocator {
 		
 		
 		//TEST checkCan() & checkColor()
-		checkCan(90);
-		checkColor(readUSDistance()-7.7);
+		//checkCan(90);
+		//checkColor(readUSDistance() - TEST_VALUE);
 		
 		
 //			//TEST FOR 
@@ -151,8 +149,7 @@ public class CanLocator {
 // 		}                           
 		
 // 		//on the border
-// 		else{
-			
+// 		else{			
 // 			if(Cx == LLx && (odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR))){
 				
 // 				Cx = (Cx*TILE_SIZE+CAN_DISTANCE_ON_BORDER)/TILE_SIZE;
@@ -321,7 +318,7 @@ public class CanLocator {
 				Sound.beep();
 				
 				try {
-					Thread.sleep(500);
+					Thread.sleep(250);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -374,6 +371,7 @@ public class CanLocator {
 			  || (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))){
 					
 					navigator.turnTo(90);
+					goToNext();
 					
 				}
 		
