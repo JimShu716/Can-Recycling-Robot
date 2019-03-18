@@ -140,7 +140,6 @@ public class CanLocator {
 	
 	private void searchProcess(){
 		
-// 		double distanceToCan = 0.0;
 // 		boolean inside = false;
 		
 // 		Sound.beep();
@@ -148,13 +147,11 @@ public class CanLocator {
 // 		if(Cx*TILE_SIZE < LLx*TILE_SIZE-DISTANCE_ERROR || Cy*TILE_SIZE > URy*TILE_SIZE+DISTANCE_ERROR 
 // 				|| Cx*TILE_SIZE > URx*TILE_SIZE+DISTANCE_ERROR || Cy*TILE_SIZE < LLy*TILE_SIZE-DISTANCE_ERROR){
 
-// 			distanceToCan = CAN_DISTANCE_FROM_OUT;
 // 			inside = false;
 // 		}                           
 		
 // 		//on the border
 // 		else{
-// 			distanceToCan = CAN_DISTANCE_ON_BORDER;
 			
 // 			if(Cx == LLx && (odo.getXYT()[2] > (90-ANGLE_ERROR) && odo.getXYT()[2] < (90+ANGLE_ERROR))){
 				
