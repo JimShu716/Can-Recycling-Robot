@@ -69,48 +69,52 @@ public class CanLocator {
 	
 	public void RunLocator(){
 		
-		while (true && !loopStop) {	
-			
-			//when EV3 goes full circle with the algorithm
-			//and ends where it started, break the loop.
-			if(Cx == ENDX && Cy == ENDY) {
-				
-				navigator.turnTo(135);
-				lightLocalizer.lightLocalize(Cx,Cy);
-				
-				//If no can was found once search algorithm is finished, go to Upper Right
-				navigator.travelTo(Cx,LLy-OFFSET);
-				navigator.travelTo(URx+OFFSET,LLy-OFFSET);
-				navigator.travelTo(URx+OFFSET,URy);
-				navigator.travelTo(URx,URy);
-				navigator.turnTo(135);
-				lightLocalizer.lightLocalize(URx,URy);
-				break;
-			}			
-			
-			//checkCan takes 90 degrees as initial input(i.e this is assuming the tile
-			//has not been scanned yet, so a full 90 degree turn is required)
-			else if(!checkCan(90)){
-					
-					goToNext();
-				
-			}
-			
-			//checks a can in front of it
-			else{
-				
-				searchProcess();
-				
-			}
-			
-		}
-//		
+//		while (true && !loopStop) {	
+//			
+//			//when EV3 goes full circle with the algorithm
+//			//and ends where it started, break the loop.
+//			if(Cx == ENDX && Cy == ENDY) {
+//				
+//				navigator.turnTo(135);
+//				lightLocalizer.lightLocalize(Cx,Cy);
+//				
+//				//If no can was found once search algorithm is finished, go to Upper Right
+//				navigator.travelTo(Cx,LLy-OFFSET);
+//				navigator.travelTo(URx+OFFSET,LLy-OFFSET);
+//				navigator.travelTo(URx+OFFSET,URy);
+//				navigator.travelTo(URx,URy);
+//				navigator.turnTo(135);
+//				lightLocalizer.lightLocalize(URx,URy);
+//				break;
+//			}			
+//			
+//			//checkCan takes 90 degrees as initial input(i.e this is assuming the tile
+//			//has not been scanned yet, so a full 90 degree turn is required)
+//			else if(!checkCan(90)){
+//					
+//					goToNext();
+//				
+//			}
+//			
+//			//checks a can in front of it
+//			else{
+//				
+//				searchProcess();
+//				
+//			}
+//			
+//		}
+		
 
 		
 		
-		//TEST checkCan() & checkColor()
-		//checkCan(90);
-		//checkColor(readUSDistance() - TEST_VALUE);
+//		//TEST checkCan() & checkColor()
+		checkCan(90);
+		checkColor(readUSDistance() - TEST_VALUE);
+		if(checkColor(readUSDistance() - TEST_VALUE);){
+			navigator.driveBack(readUSDistance()-(TEST_VALUE));
+	        travelToURBorder();
+		}
 		
 		
 //			//TEST FOR 
