@@ -23,9 +23,10 @@ public class CanLocator {
 	private static final double CAN_DISTANCE_FROM_OUT = 11.75;
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
-	private static final double TEST_VALUE = 4.0;
+	private static final double TEST_VALUE = 5.0;
 	private static final double TEST_ANGLE = 15.0;
 	private double canAngle = 0;
+	private double canDistance = 0;
 	private int ENDX = 0, ENDY = 0;
 	private double Cx = 0,Cy = 0;
 	private int count = 0;
@@ -69,7 +70,7 @@ public class CanLocator {
 	
 	public void RunLocator(){
 		
-		while (true && !loopStop) {	
+		/*while (true && !loopStop) {	
 			
 			//when EV3 goes full circle with the algorithm
 			//and ends where it started, break the loop.
@@ -103,18 +104,18 @@ public class CanLocator {
 				
 			}
 			
-		}
+		}*/
 		
 
 		
 		
 //		//TEST checkCan() & checkColor()
-//		checkCan(90);
-//		double x = readUSDistance() - TEST_VALUE;
-//		if(x){
-//			navigator.driveBack(x);
-//	        travelToURBorder();
-//		}
+		checkCan(90);
+		double x = readUSDistance() - TEST_VALUE;
+		if(checkColor(x)){
+			navigator.driveBack(x);
+	        travelToURBorder();
+		}
 		
 		
 //			//TEST FOR 
@@ -179,15 +180,15 @@ public class CanLocator {
 			inside = true;
 		}                      
 		
-		if(checkColor(readUSDistance()-(TEST_VALUE))){
+		if(checkColor(canDistance = (readUSDistance()-(TEST_VALUE))) ){
 			
 			if(inside){
-				navigator.driveBack(readUSDistance()-(TEST_VALUE));
+				navigator.driveBack(canDistance);
 		        travelToURBorder();
 			}
 		
 			else{
-			    navigator.driveBack(readUSDistance()-(TEST_VALUE));
+			    navigator.driveBack(canDistance);
 				travelToUROutside(); //NEED CHECK
 			}
 			
@@ -197,13 +198,13 @@ public class CanLocator {
 		    
 			if(inside){
 			    
-				navigator.driveBack(readUSDistance()-(TEST_VALUE));
+				navigator.driveBack(canDistance);
 				
 				if(canAngle < ANGLE_ERROR) borderDodge();
 		        
 				else {
 				    
-				    navigator.driveBack(readUSDistance()-(TEST_VALUE));
+				    navigator.driveBack(canDistance);
 		        	navigator.turnTo(-canAngle);
 		        	goToNext(); 
 				    
@@ -254,9 +255,9 @@ public class CanLocator {
         
         System.out.println("canAngle:"+canAngle);
         
-       if(canAngle > 110){
+       if(canAngle < -110){
             
-            canAngle = 360-odo.getXYT()[2] + currentAngle;
+            canAngle = 360+canAngle-(ANGLE_ERROR/2);
             
         }
         
@@ -376,6 +377,7 @@ public class CanLocator {
 			goToNext();
 					
 		}
+		canDistance = 0;
 	}
 	
 	/**
@@ -613,3 +615,4 @@ public class CanLocator {
 
   
 }	
+
