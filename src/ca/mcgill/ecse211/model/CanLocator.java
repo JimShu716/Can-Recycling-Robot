@@ -23,8 +23,8 @@ public class CanLocator {
 	private static final double CAN_DISTANCE_FROM_OUT = 11.75;
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
-	private static final double TEST_VALUE = 7.7;
-	private static final double TEST_ANGLE = 8;
+	private static final double TEST_VALUE = 4.0;
+	private static final double TEST_ANGLE = 15.0;
 	private double canAngle = 0;
 	private int ENDX = 0, ENDY = 0;
 	private double Cx = 0,Cy = 0;
@@ -110,8 +110,9 @@ public class CanLocator {
 		
 //		//TEST checkCan() & checkColor()
 //		checkCan(90);
-//		if(checkColor(readUSDistance() - TEST_VALUE);){
-//			navigator.driveBack(readUSDistance()-(TEST_VALUE));
+//		double x = readUSDistance() - TEST_VALUE;
+//		if(x){
+//			navigator.driveBack(x);
 //	        travelToURBorder();
 //		}
 		
@@ -223,8 +224,10 @@ public class CanLocator {
 	//robot is facing the can
 	private boolean checkCan(double angle){
 	
-	    canAngle = 0;
+		canAngle = 0;
 	    double currentAngle = odo.getXYT()[2];
+	    
+	    System.out.println("currentAng:"+currentAngle);
 	    
 		//begin rotating to scan for cans 
 		navigator.turnToScan(angle);
@@ -246,11 +249,14 @@ public class CanLocator {
         Project.LEFT_MOTOR.stop(true);
         Project.RIGHT_MOTOR.stop();
         navigator.turnTo(TEST_ANGLE);
+        System.out.println("firstAng:"+odo.getXYT()[2]);
         canAngle = odo.getXYT()[2] - currentAngle;
         
-       if(canAngle < -120){
+        System.out.println("canAngle:"+canAngle);
+        
+       if(canAngle > 110){
             
-            canAngle = 360-odo.getXYT()[2] - currentAngle;
+            canAngle = 360-odo.getXYT()[2] + currentAngle;
             
         }
         
@@ -319,20 +325,24 @@ public class CanLocator {
 
 		//keeps coordinate values in check to update odo if needed
 		if(Cy < URy && Cx==LLx) {
+			
 			Cy = Cy+1;
 			odo.setY(Cy*TILE_SIZE);
 		}
 		else if(Cx < URx && Cy==URy) { 
+			
 			Cx = Cx+1;
 			odo.setX(Cx*TILE_SIZE);
 		}
 		else if(Cy > LLy && Cx==URx) {
+			
 			Cy=Cy-1;
 			odo.setY(Cy*TILE_SIZE);
 		}
 		
 		//ENDX is the x coordinate of the final position of the EV3
 		else if(Cx > ENDX && Cy==LLy) {
+			
 			Cx=Cx-1;
 			odo.setX(Cx*TILE_SIZE);
 		}
