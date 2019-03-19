@@ -308,7 +308,7 @@ public class CanLocator {
 	
 	private boolean checkColor(double distance){
 
-		navigator.driveForward(distance); // **REDUNDANT WITH driveForward
+		navigator.driveForward(distance);
 		
 		//if the can color is the target color, beep once
 		if (TR == assessCanColor.run()) {
@@ -366,14 +366,34 @@ public class CanLocator {
 		}
 		
 		//if the EV3 is at one of the 3 corners of the search zone, turn right to stay on the zone border
-		if( (Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy        *TILE_SIZE+DISTANCE_ERROR))
-			  || (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))
-			  || (Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))){
+		if( (Cx*TILE_SIZE > (LLx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (LLx*TILE_SIZE+DISTANCE_ERROR) 
+		    && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))){
+		    
+		    navigator.turnTo(45);
+		    lightLocalizer.lightLocalize(Cx,Cy);
+		    navigator.turnTo(90);
+			goToNext();
+		    
+		}
+			  
+	    else if ((Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) 
+	            && Cy*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))){
+	        
+	        navigator.turnTo(-45);
+		    lightLocalizer.lightLocalize(Cx,Cy);
+		    navigator.turnTo(180);
+			goToNext();
+	        
+	    }
+		else if((Cx*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && Cx*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) 
+		        && Cy*TILE_SIZE > (LLy*TILE_SIZE-DISTANCE_ERROR) && Cy*TILE_SIZE < (LLy*TILE_SIZE+DISTANCE_ERROR))){
 					
-					navigator.turnTo(90);
-					goToNext();
+			navigator.turnTo(-135);
+		    lightLocalizer.lightLocalize(Cx,Cy);
+		    navigator.turnTo(-90);
+			goToNext();
 					
-				}
+		}
 		
 		
 // 		if(Cy < URy && Cx==LLx) {
@@ -717,4 +737,3 @@ public class CanLocator {
 
   
 }	
-
