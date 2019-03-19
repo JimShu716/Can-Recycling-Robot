@@ -495,7 +495,7 @@ public class CanLocator {
 				navigator.travelTo(LLx-OFFSET,(Cy) + 2); //the 2 added is to make the EV3 dodge 2 times a tile
 				Cy = Cy+2;
 				navigator.turnTo(90);
-				if (!checkSpace()) searchZone();
+				if (!checkSpace()) searchProcess();
 				else {
 					
 					Cx = Cx + OFFSET;
