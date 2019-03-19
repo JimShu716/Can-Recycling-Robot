@@ -24,6 +24,7 @@ public class CanLocator {
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
 	private static final double TEST_VALUE = 7.7;
+	private static final double TEST_ANGLE = 8;
 	private double canAngle = 0;
 	private int ENDX = 0, ENDY = 0;
 	private double Cx = 0,Cy = 0;
@@ -241,7 +242,7 @@ public class CanLocator {
         //if can is found, stop motors and record the angle the can was detected at
         Project.LEFT_MOTOR.stop(true);
         Project.RIGHT_MOTOR.stop();
-        navigator.turnTo(8);
+        navigator.turnTo(TEST_ANGLE);
         canAngle = odo.getXYT()[2] - currentAngle;
         
        if(canAngle < -120){
