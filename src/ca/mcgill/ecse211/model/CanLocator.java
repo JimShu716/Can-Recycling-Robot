@@ -33,7 +33,6 @@ public class CanLocator {
 	private static boolean fromInsideDodge = false;
 	private static boolean loopStop = false;
 	
-	private int TR;  //this variable stores the integer defining the target can color.
 	private int LLx, LLy, URx, URy;
 	private int islandLLX, islandLLY, islandURX, islandURY;
 	
@@ -61,10 +60,10 @@ public class CanLocator {
 	}
 	
 	/**
-	 * RunLocator() is the method that runs the algorithm for searching for the correodo.getXYT()[2] can.
+	 * RunLocator() is the method that runs the algorithm for searching for the correct can.
 	 * It drives the EV3 forward and in a square around teh search zone and looks for cans.
-	 * If a can is deteodo.getXYT()[2]ed, it calls for the searchProcess(), otherwise it calls goToNext().
-	 * Once it has traveled around the whole zone without finding the correodo.getXYT()[2] can it then travels
+	 * If a can is detected, it calls for the searchProcess(), otherwise it calls goToNext().
+	 * Once it has traveled around the whole zone without finding the correct can it then travels
 	 * to the upper right corner.
 	 */
 	
@@ -105,30 +104,6 @@ public class CanLocator {
 			}
 			
 		}
-		
-
-		
-		
-//		//TEST checkCan() & checkColor()
-//		checkCan(90);
-//		double x = readUSDistance() - TEST_VALUE;
-//		if(checkColor(x)){
-//			navigator.driveBack(x);
-//	        travelToURBorder();
-//		}
-		
-		
-//			//TEST FOR 
-//			Project.LEFT_MOTOR.rotate(Navigation.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, 90), true);
-//			Project.RIGHT_MOTOR.rotate(Navigation.convertAngle(Robot.WHEEL_RAD, Robot.TRACK, -90),true);
-//			while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
-//				if(readUSDistance() <= TILE_SIZE*Math.sqrt(2.0)+DISTANCE_ERROR){
-//					System.out.println(readUSDistance());
-//					Project.LEFT_MOTOR.stop();
-//					Project.RIGHT_MOTOR.stop();
-//					Sound.beep();
-//				}
-//			}
 		
 	}
 	
@@ -317,7 +292,7 @@ public class CanLocator {
 	} 
 	
 	/**
-	*goToNext() moves the EV3 forward to the next position when no cans are deteodo.getXYT()[2]ed.
+	*goToNext() moves the EV3 forward to the next position when no cans are detected.
 	*/
 
 	private void goToNext() { 
@@ -381,7 +356,7 @@ public class CanLocator {
 	}
 	
 	/**
-	*travelToURBorder() is called when the correodo.getXYT()[2] can is found on the edge of the search zone. This
+	*travelToURBorder() is called when the correct can is found on the edge of the search zone. This
 	*method will use travelTo() from the Navigator class to get the EV3 to the upper right corner.
 	*/
 	
@@ -445,7 +420,7 @@ public class CanLocator {
 		
 
 	/**
-	*travelToUROutside() is called when the correodo.getXYT()[2] can is found from the outside of
+	*travelToUROutside() is called when the correct can is found from the outside of
 	*the search zone. This method will use travelTo() from the Navigator class
 	*to get the EV3 to the upper right corner.
 	*/
