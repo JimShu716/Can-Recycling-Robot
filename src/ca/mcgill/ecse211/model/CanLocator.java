@@ -250,33 +250,66 @@ public class CanLocator {
 	
 	private void checkColor(double distance){
 
+		int heavy = 0;
 		navigator.driveForward(distance);
+				
+		while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
+			heavy = heavy|assessCanWeght.run();
+		}
 		
-		//Beeps depending on the color of the can
-		int color = assessCanColor.run();
-				
-		switch (color) {
+		clamp.grabCan();
 		
-			case 1: Sound.beep();
-					break;
-				
-			case 2: Sound.beep(20);
-					Sound.beep(20);
-					break;
-				
-			case 3: Sound.beep(20);
-					Sound.beep(20);
-					Sound.beep(20);
-					break;
+		//Beeps depending on the color and weight of the can
+		if(heavy == 1){
+			switch (assessCanColor.run()) {
+
+				case 1: Sound.beep(1000);
+						break;
+
+				case 2: Sound.beep(1000);
+						Sound.beep(1000);
+						break;
+
+				case 3: Sound.beep(1000);
+						Sound.beep(1000);
+						Sound.beep(1000);
+						break;
+
+				case 4: Sound.beep(1000);
+						Sound.beep(1000);
+						Sound.beep(1000);
+						Sound.beep(1000);
+						break;
+				default: Sound.buzz(); //this means incorrect identification 
+						 break;
+			}
+		}
+		
+		else{
+			switch (assessCanColor.run()) {
+
+				case 1: Sound.beep(500);
+						break;
+
+				case 2: Sound.beep(500);
+						Sound.beep(500);
+						break;
+
+				case 3: Sound.beep(500);
+						Sound.beep(500);
+						Sound.beep(500);
+						break;
+
+				case 4: Sound.beep(500);
+						Sound.beep(500);
+						Sound.beep(500);
+						Sound.beep(500);
+						break;
+				default: Sound.buzz(); //this means incorrect identification 
+						 break;
+			}
 			
-			case 4: Sound.beep(20);
-					Sound.beep(20);
-					Sound.beep(20);
-					Sound.beep(20);
-					break;
-			default: Sound.buzz(); //this means incorrect identification 
-					 break;
-		}	
+		}
 	} 
 	
 	/**
