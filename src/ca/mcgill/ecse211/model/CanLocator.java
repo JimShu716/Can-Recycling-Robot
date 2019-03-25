@@ -12,6 +12,7 @@ public class CanLocator {
 	
 	private AssessCanColor assessCanColor;
 	private AssessCanWeight assessCanWeight;
+	private Clamp clamp;
 	
 	private SampleProvider usDistance;
 	private float[] usData;
@@ -46,7 +47,6 @@ public class CanLocator {
 		this.usData = usData;
 		this.assessCanColor = assessCanColor;
 		this.navigator = navigator;
-		TR = robot.getGreenTeam();
 		LLx = robot.getSearchZoneLLX();
 		LLy = robot.getSearchZoneLLY();
 		URx = robot.getSearchZoneURX();
@@ -158,7 +158,7 @@ public class CanLocator {
 			inside = true;
 		}                      
 		
-		if(checkColor(canDistance = (readUSDistance()-(TEST_VALUE))) ){
+		if(assessCan(canDistance = (readUSDistance()-(TEST_VALUE))) ){
 			
 			if(inside){
 				navigator.driveBack(canDistance);
@@ -243,18 +243,18 @@ public class CanLocator {
 	}
 	
 	/**
-	*checkColor() is a method that is called after checkCan(). It 
+	*assessCan() is a method that is called after checkCan(). It 
 	*makes the EV3 beep depending on the color of the can scanned.
 	*@param distance
 	*/
 	
-	private void checkColor(double distance){
+	private void assessCan(double distance){
 
 		int heavy = 0;
 		navigator.driveForward(distance);
 				
 		while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
-			heavy = heavy|assessCanWeght.run();
+			heavy = heavy | assessCanWeight.run();
 		}
 		
 		clamp.grabCan();
@@ -263,22 +263,22 @@ public class CanLocator {
 		if(heavy == 1){
 			switch (assessCanColor.run()) {
 
-				case 1: Sound.beep(1000);
+				case 1: Sound.playTone(500, 1000);
 						break;
 
-				case 2: Sound.beep(1000);
-						Sound.beep(1000);
+				case 2: Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
 						break;
 
-				case 3: Sound.beep(1000);
-						Sound.beep(1000);
-						Sound.beep(1000);
+				case 3: Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
 						break;
 
-				case 4: Sound.beep(1000);
-						Sound.beep(1000);
-						Sound.beep(1000);
-						Sound.beep(1000);
+				case 4: Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
+						Sound.playTone(500, 1000);
 						break;
 				default: Sound.buzz(); //this means incorrect identification 
 						 break;
@@ -288,22 +288,22 @@ public class CanLocator {
 		else{
 			switch (assessCanColor.run()) {
 
-				case 1: Sound.beep(500);
+				case 1: Sound.playTone(500, 500);
 						break;
 
-				case 2: Sound.beep(500);
-						Sound.beep(500);
+				case 2: Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
 						break;
 
-				case 3: Sound.beep(500);
-						Sound.beep(500);
-						Sound.beep(500);
+				case 3: Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
 						break;
 
-				case 4: Sound.beep(500);
-						Sound.beep(500);
-						Sound.beep(500);
-						Sound.beep(500);
+				case 4: Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
+						Sound.playTone(500, 500);
 						break;
 				default: Sound.buzz(); //this means incorrect identification 
 						 break;
