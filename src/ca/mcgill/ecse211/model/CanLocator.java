@@ -19,7 +19,7 @@ public class CanLocator {
 	
 	private static int FORWARD_SPEED = 100;
 	private static double OFFSET = 0.5;
-	private static final double TILE_SIZE = 30.48;
+	private final double TILE_SIZE = Navigation.TILE_SIZE;
 	private static final double CAN_DISTANCE_ON_BORDER = 18.5;
 	private static final double ANGLE_ERROR = 10.0;
 	private static final double DISTANCE_ERROR = 4.0;
@@ -33,7 +33,6 @@ public class CanLocator {
 	private static boolean loopStop = false;
 	
 	private int LLx, LLy, URx, URy;
-	private int islandLLX, islandLLY, islandURX, islandURY;
 	
 	/**
 	 * This class allows the EV3 to search for cans and identify their colors and weights.
@@ -51,10 +50,6 @@ public class CanLocator {
 		LLy = robot.getSearchZoneLLY();
 		URx = robot.getSearchZoneURX();
 		URy = robot.getSearchZoneURY();
-		islandLLX = robot.getIslandLLX();
-		islandLLY = robot.getIslandLLY();
-		islandURX = robot.getIslandURX();
-		islandURY = robot.getIslandURY();
 		this.Cy = LLy;
 		this.Cx = LLx;
 		this.ENDX = LLx+1;
