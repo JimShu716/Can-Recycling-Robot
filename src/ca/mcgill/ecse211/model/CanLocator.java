@@ -322,11 +322,11 @@ public class CanLocator {
 	}
 	
 	/**
-	*travelToURBorder() is called when the correct can is found on the edge of the search zone. This
-	*method will use travelTo() from the Navigator class to get the EV3 to the upper right corner.
+	*travelToStartCorner() is called when a can is found and its weight and color have been identified. This
+	*method will use travelTo() from the Navigator class to get the EV3 back to the initial start corner.
 	*/
 	
-	private void travelToURBorder() {
+	private void travelToStartCorner() {
 		
 		navigator.turnTo(-canAngle);
 		
