@@ -39,22 +39,22 @@ public class CanLocator {
 	 * @author Mohamed Samee
 	 */
 	
-	public CanLocator(Robot robot, AssessCanColor assessCanColor, SampleProvider usDistance, float[] usData, 
-			Navigation navigator, LightLocalizer lightLocalizer) throws OdometerExceptions {
+	public CanLocator(Robot robot, AssessCanColor assessCanColor, AssessCanWeight assessCanWeight, Clamp clamp, 
+			SampleProvider usDistance, float[] usData, Navigation navigator, LightLocalizer lightLocalizer) throws OdometerExceptions {
 		odo = Odometer.getOdometer();
+		this.assessCanColor = assessCanColor;
+		this.assessCanWeight = assessCanWeight;
+		this.navigator = navigator;
+		this.lightLocalizer = lightLocalizer; 
+		this.clamp = clamp;
 		this.usDistance = usDistance;
 		this.usData = usData;
-		this.assessCanColor = assessCanColor;
-		this.navigator = navigator;
-		LLx = navigator.getStartCornerX();
-		LLy = navigator.getStartCornerY();
-		URx = navigator.getEndCornerX();
-		URy = navigator.getEndCornerY();
-		this.Cy = LLy;
-		this.Cx = LLx;
+		LLx = robot.getSearchZoneLLX();
+		LLy = robot.getSearchZoneLLY();
+		URx = robot.getSearchZoneURX();
+		URy = robot.getSearchZoneURY();
 		this.ENDX = LLx+1;
 		this.ENDY = LLy;
-		this.lightLocalizer = lightLocalizer; 
 	}
 	
 	/**
@@ -67,8 +67,20 @@ public class CanLocator {
 	
 	public void RunLocator(){
 		
-		//ADD STATEMENTS TO CHECK ANGLE AND FIX IT TO ZONE
+		this.Cy = LLy;
+		this.Cx = LLx;
 		
+		if((odo.getXYT()[0]*TILE_SIZE > (URx*TILE_SIZE-DISTANCE_ERROR) && odo.getXYT()[0]*TILE_SIZE < (URx*TILE_SIZE+DISTANCE_ERROR) 
+	            && odo.getXYT()[1]*TILE_SIZE > (URy*TILE_SIZE-DISTANCE_ERROR) && odo.getXYT()[1]*TILE_SIZE < (URy*TILE_SIZE+DISTANCE_ERROR))){
+			
+			Cx = odo.getXYT()[0];
+			Cy = odo.getXYT()[1];
+			
+			navigator.turnTo(180);
+		    searchProcess();
+			goToNext();
+			
+		}
 		
 		while (true && !loopStop) {	
 			
