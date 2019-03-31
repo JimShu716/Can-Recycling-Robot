@@ -227,7 +227,7 @@ public class CanLocator {
 		navigator.driveForward(distance);
 		clamp.grabCan();		
 		
-		canDistance += TILE_SIZE/2
+		canDistance += TILE_SIZE/2;
 		navigator.driveForwardWeight(TILE_SIZE/2);
 		while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
 			heavy = heavy | assessCanWeight.run();
