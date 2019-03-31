@@ -225,12 +225,14 @@ public class CanLocator {
 
 		int heavy = 0;
 		navigator.driveForward(distance);
-				
+		clamp.grabCan();		
+		
+		canDistance += TILE_SIZE/2
+		navigator.driveForwardWeight(TILE_SIZE/2);
 		while(Project.LEFT_MOTOR.isMoving() && Project.RIGHT_MOTOR.isMoving()){
 			heavy = heavy | assessCanWeight.run();
 		}
 		
-		clamp.grabCan();
 		
 		//Beeps depending on the color and weight of the can
 		if(heavy == 1){
