@@ -40,7 +40,7 @@ public class CanLocator {
 	
 	/**
 	 *This class allows the EV3 to search for cans and identify their colors and weights.
-	 *NOTE: Please refer to Software Document - Section BLANK for detailed explanations of methods.
+	 *NOTE: Please refer to Software Document - Section 3.3 for detailed explanations of methods.
 	 * @author Mohamed Samee
 	 *
 	 */
@@ -515,4 +515,3 @@ public class CanLocator {
 
   
 }	
-
