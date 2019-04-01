@@ -241,21 +241,27 @@ public class CanLocator {
 			
 			switch (assessCanColor.run()) {
 
-				case 1: Sound.playTone(500, 1000);
+				case 1: 	Sound.playTone(500, 1000);
 						break;
 
-				case 2: Sound.playTone(500, 1000);
-						Sound.playTone(500, 1000);
-						break;
-
-				case 3: Sound.playTone(500, 1000);
-						Sound.playTone(500, 1000);
+				case 2: 	Sound.playTone(500, 1000);
+						Sound.pause(100);
 						Sound.playTone(500, 1000);
 						break;
 
-				case 4: Sound.playTone(500, 1000);
+				case 3: 	Sound.playTone(500, 1000);
+						Sound.pause(100);
 						Sound.playTone(500, 1000);
+						Sound.pause(100);
 						Sound.playTone(500, 1000);
+						break;
+
+				case 4: 	Sound.playTone(500, 1000);
+						Sound.pause(100);
+						Sound.playTone(500, 1000);
+						Sound.pause(100);
+						Sound.playTone(500, 1000);
+						Sound.pause(100);
 						Sound.playTone(500, 1000);
 						break;
 				default: Sound.buzz(); //this means incorrect identification 
@@ -269,21 +275,27 @@ public class CanLocator {
 			
 			switch (assessCanColor.run()) {
 
-				case 1: Sound.playTone(500, 500);
+				case 1: 	Sound.playTone(500, 500);
 						break;
 
-				case 2: Sound.playTone(500, 500);
-						Sound.playTone(500, 500);
-						break;
-
-				case 3: Sound.playTone(500, 500);
-						Sound.playTone(500, 500);
+				case 2: 	Sound.playTone(500, 500);
+						Sound.pause(100);
 						Sound.playTone(500, 500);
 						break;
 
-				case 4: Sound.playTone(500, 500);
+				case 3: 	Sound.playTone(500, 500);
+						Sound.pause(100);
 						Sound.playTone(500, 500);
+						Sound.pause(100);
 						Sound.playTone(500, 500);
+						break;
+
+				case 4: 	Sound.playTone(500, 500);
+						Sound.pause(100);
+						Sound.playTone(500, 500);
+						Sound.pause(100);
+						Sound.playTone(500, 500);
+						Sound.pause(100);
 						Sound.playTone(500, 500);
 						break;
 				default: Sound.buzz(); //this means incorrect identification 
