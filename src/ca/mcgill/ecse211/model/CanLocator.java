@@ -39,7 +39,8 @@ public class CanLocator {
 	private int LLx, LLy, URx, URy, SCx, SCy;
 	
 	/**
-	 * This class allows the EV3 to search for cans and identify their colors and weights.
+	 *This class allows the EV3 to search for cans and identify their colors and weights.
+	 *NOTE: Please refer to Software Document - Section BLANK for detailed explanations of methods.
 	 * @author Mohamed Samee
 	 */
 	
@@ -66,7 +67,7 @@ public class CanLocator {
 	 * It drives the EV3 forward and in a square around the search zone and looks for cans.
 	 * If a can is detected, it calls for the searchProcess(), otherwise it calls goToNext().
 	 * Once it has traveled around the whole zone without finding the correct can it then travels
-	 * to the upper right corner.
+	 * back to its starting corner.
 	 */
 	
 	public void RunLocator(){
@@ -149,12 +150,8 @@ public class CanLocator {
 	
 	
 	/**
-	 * searchProcess() runs when the EV3 detects a can. When detected, it drives to it and checks its color.
-	 * If the color is correct, it beeps once and travels to the upper right corner. Otherwise it
-	 * reverses and calls one of the dodge methods depending on where the can was spotted.
-	 * For instance, If an incorrect colored can is placed on the border
-	 * the EV3 dodges outwards, and then sets the distanceToCan to CAN_DISTANCE_FROM_OUT so that
-	 * the EV3 knows how far to move towards a can if it spots one.
+	 * searchProcess() runs when the EV3 detects a can. It calls assessCan() to 
+	 *identify color and weight. Once done, calls travelToStartCorner() while having the can.
 	 */
 	
 	private void searchProcess(){               
@@ -171,6 +168,7 @@ public class CanLocator {
 	/**
 	*checkCan() returns true if a can was spotted by the ultrasonic sensor within the
 	*range of a tile. Otherwise, it returns false.
+	*@param angle
 	*/
 	
 	private boolean checkCan(double angle){
@@ -217,7 +215,7 @@ public class CanLocator {
 	
 	/**
 	*assessCan() is a method that is called after checkCan(). It 
-	*makes the EV3 beep depending on the color of the can scanned.
+	*makes the EV3 beep depending on the color as well as the weight of the can scanned.
 	*@param distance
 	*/
 	
@@ -236,8 +234,6 @@ public class CanLocator {
 		
 		//Beeps depending on the color and weight of the can
 		if(heavy == 1){
-			
-			//CLAMP
 			
 			switch (assessCanColor.run()) {
 
@@ -270,9 +266,7 @@ public class CanLocator {
 		}
 		
 		else{
-			
-			//CLAMP
-			
+		
 			switch (assessCanColor.run()) {
 
 				case 1: 	Sound.playTone(500, 500);
@@ -306,7 +300,7 @@ public class CanLocator {
 	} 
 	
 	/**
-	*goToNext() moves the EV3 forward to the next position when no cans are detected.
+	*goToNext() uses travelTo() to drive the EV3 forward to the next position when no cans are detected.
 	*/
 
 	private void goToNext() { 
@@ -359,7 +353,7 @@ public class CanLocator {
 			}
 		}
 		
-		//The use of Math.round() is so the rounded value is used rather than the floored (see Section BLANK in Software Document)
+		//The use of Math.round() is so the rounded value is used rather than the floored
 		else if ((int)(Math.round((URx-LLx)/2)) == (int)Cx) {
 				
 			if ( (odo.getXYT()[2] >= 90-ANGLE_ERROR) && 
