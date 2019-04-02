@@ -98,7 +98,7 @@ public class CanLocator {
 			
 		}
 		
-		while (true && !loopStop) {	
+		while (!loopStop) {	//&& true if doesnt
 			
 			//when EV3 goes full circle with the algorithm
 			//and ends where it started, break the loop.
